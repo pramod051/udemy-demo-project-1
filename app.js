@@ -14,7 +14,7 @@ const db = mysql.createConnection({
     host: 'database-for-project1.cbg8ugecmedx.ap-south-1.rds.amazonaws.com',
     user: 'root',
     password: 'admin123',
-    database: 'database-for-project1'
+    database: 'testdb1'
 });
 
 // Connect to MySQL
