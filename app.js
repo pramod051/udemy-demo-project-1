@@ -1,3 +1,5 @@
+require('dotenv').config();
+
 const express = require('express');
 const mysql = require('mysql');
 const bodyParser = require('body-parser');
@@ -9,17 +11,18 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 const port = 3000;
 
-// Create connection to MySQL
+// Create connection to MySQL using environment variables
 const db = mysql.createConnection({
-    host: 'database-for-project1.cbg8ugecmedx.ap-south-1.rds.amazonaws.com',
-    user: 'root',
-    password: 'admin123',
-    database: 'testdb1'
+    host: process.env.DB_HOST,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME
 });
 
 // Connect to MySQL
 db.connect((err) => {
     if (err) {
+        console.error("DB Connection Failed:", err);
         throw err;
     }
     console.log('MySQL Connected...');
@@ -58,7 +61,7 @@ app.get('/getItems', (req, res) => {
     });
 });
 
-// Get a single item by ID
+// Get single item by ID
 app.get('/getItem/:id', (req, res) => {
     let sql = `SELECT * FROM items WHERE id = ${req.params.id}`;
     db.query(sql, (err, result) => {
